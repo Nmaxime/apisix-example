@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "hello-chart.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+apiVersion: apisix.apache.org/v2beta3
+kind: ApisixRoute
+metadata:
+  name: hello-route
+  labels:
+    {{- include "hello-chart.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  http:
+  {{- range .Values.ingress.hosts }}
+  - name: {{ .ruleName }}
+    match:
+      hosts:
+      - {{ .host | quote }}
+      paths:
+      {{- range .paths }}
+      - {{ .path }}
+      {{- end }}
+    backends:
+       - serviceName: {{ $fullName }}
+         servicePort: {{ $svcPort }}
+  {{- end }}
+{{- end }}

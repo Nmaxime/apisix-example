@@ -1,0 +1,22 @@
+apisix:
+  gateway:
+    type: NodePort
+  ingress-controller:
+    enabled: true
+    config:
+      logLevel: "info"
+      apisix:
+        serviceName: "ingress-apisix-admin"
+        serviceNamespace: ingress-apisix
+    # Default is "cluster.local" but we don't want to include search domains with a kind cluster 
+    # -> we use an absolute domain
+    clusterDomain: cluster.local. 
+
+  etcd:
+    # install etcd(v3) by default, set false if do not want to install etcd(v3) together
+    enabled: true
+    replicaCount: 1
+    clusterDomain: cluster.local.
+
+  logs:
+    errorLogLevel: "warn"

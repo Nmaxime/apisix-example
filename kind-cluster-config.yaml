@@ -1,0 +1,12 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  # Recommended image: https://github.com/kubernetes-sigs/kind/releases/tag/v0.16.0
+  image: kindest/node:v1.23.12@sha256:9402cf1330bbd3a0d097d2033fa489b2abe40d479cc5ef47d0b6a6960613148a
+- role: worker
+  image: kindest/node:v1.23.12@sha256:9402cf1330bbd3a0d097d2033fa489b2abe40d479cc5ef47d0b6a6960613148a
+  extraPortMappings:
+  - containerPort: 31722
+    hostPort: 31722
+    protocol: TCP

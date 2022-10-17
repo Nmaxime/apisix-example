@@ -1,0 +1,9 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: apisix.apache.org/v2beta3
+kind: ApisixUpstream
+metadata:
+  name: {{ include "hello-chart.fullname" . }}
+spec:
+  loadbalancer:
+    type: ewma
+{{- end }}
